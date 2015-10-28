@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>reveal.js - The HTML Presentation Framework</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+				<section>
+					<h1>React DnD</h1>
+					<h3>Drag and Drop for React</h3>
+					<p>
+						<small>Created by <a href="https://www.linkedin.com/pub/ping-wen-mark-hsu/8a/204/b7">Ping-Wen (Mark) Hsu</a></small>
+					</p>
+					<p>
+                      <small>2015/10/28 for <a href="http://www.meetup.com/ReactJS-Waterloo/">ReactJS Waterloo</a></small>
+					</p>
+				</section>
+
+				<section>
+                    <section>
+                        <h2>What is react-dnd?</h2>
+                        <p>
+                          A <b class="fragment highlight-red">set</b> of React <b class="fragment highlight-red">higher-order components</b>
+                        </p>
+                    </section>
+                    <section>
+						<p>
+                          A set of React <b class="fragment highlight-red">higher-order components</b>
+                        </p>
+						<a href="#" class="navigate-down">
+							<img data-src="./img/dnd component.jpg" alt="Down arrow">
+						</a>
+					</section>
+                    <section>
+						<p>
+                          A <b class="fragment highlight-red">set</b> of React higher-order components
+                        </p>
+                        <ul>
+                            <li>DragSource</li>
+                            <li>DropTarget</li>
+                        </ul>
+                        <br/>
+						<a href="#" class="navigate-down">
+							<img data-src="./img/dnd components.jpg" alt="Down arrow">
+						</a>
+					</section>
+                    <section>
+						<p>
+                          You can use either one or both...
+                        </p>
+                        <br/>
+						<a href="#" class="navigate-down">
+							<img data-src="./img/dnd components in file system.jpg" alt="Down arrow">
+						</a>
+                    </section>
+                    <section>
+						<p>
+                          with "Type"
+                        </p>
+						<a href="#" class="navigate-down">
+							<img data-src="./img/dnd components in file system with type.jpg" alt="Down arrow">
+						</a>
+					</section>	
+				</section>
+
+				<!-- Example of nested vertical slides -->
+				<section>
+					<p>Shall we start coding?</p>
+					<p class="fragment">Not yet, we need two more elements</p>
+					<ul class="fragment">
+					  <li>Functionality</li>
+					  <li>DnD states</li>
+					</ul>
+				</section>
+
+                <section>
+                    <section>
+                      <h3>React DnD APIs</h3>
+                      <p>Overwrite API functions for DnD functionalities</p>
+                      <table>
+                          <thead>
+                              <tr>
+                                  <th>DargSource</th>
+                                  <th>DropTarget</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr>
+                                  <td>beginDrag()</td>
+                                  <td>drop()</td>
+                              </tr>
+                              <tr>
+                                  <td>endDrag()</td>
+                                  <td>hover()</td>
+                              </tr>
+                              <tr>
+                                  <td>canDrag()</td>
+                                  <td>canDrop()</td>
+                              </tr>
+                              <tr>
+                                  <td>isDragging()</td>
+                                  <td></td>
+                              </tr>
+                          </tbody>
+                      </table>
+                    </section>
+                    <section>
+                        <pre>
+                            <code>
+var file_source = {
+    beginDrag: function(props){
+        //Do something when drag begins
+        //Usually return component props to monitor
+        return {file: props.file};
+    },
+    canDrag: function(props, monitor){
+        //Return true or false to tell DnD if the component is draggable
+        return true;
+    },
+    endDrag: function(props, monitor){
+        //Do something when drag ends
+        //The action or Ajax usually get called here
+    }
+};
+                            </code>
+                        </pre>
+                    </section>
+				</section>
+				<section>
+                    <section>
+                        <h3>Monitor</h3>
+                        <p>Call Monitor functions to obtain DnD states</p>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>DargSourceMonitor</th>
+                                    <th>DropTargetMonitor</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>canDrag()</td>
+                                    <td>canDrop()</td>
+                                </tr>
+                                <tr>
+                                    <td>isDragging()</td>
+                                    <td>isOver()</td>
+                                </tr>
+                                <tr>
+                                    <td>getItemType()</td>
+                                    <td>getItemType()</td>
+                                </tr>
+                                <tr>
+                                    <td>getItem()</td>
+                                    <td>getItem()</td>
+                                </tr>
+                                <tr>
+                                    <td>getDropResult()</td>
+                                    <td>getDropResult()</td>
+                                </tr>
+                                <tr>
+                                    <td>didDrop()</td>
+                                    <td>didDrop()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+                    <section>
+                        <pre>
+                            <code>
+/*Subscribe attritubes from monitor*/
+/*then inject them into your component  */
+var file_source_collect = function(monitor){
+    return {
+        isDragging: monitor.isDragging()
+    };
+};
+                            </code>
+                        </pre>
+                    </section>                    
+				</section>
+
+				<section >
+					<p>Put everything together!</p>
+                  <p class="fragment">Use <b>connect</b> to wrap your component</p>
+					<pre><code>
+var file_source = {
+  //overwrite DnD apis...
+};
+
+var file_source_collect = function(connect, monitor){
+  return {
+    connectDragSource: connect.dragSource()
+    //monitor attributes...
+  };
+};
+
+@DragSource('FILE', file_source, file_source_collect)
+class FileItem extends Component{
+  //... 
+  render(){
+    const { connectDragSource } = this.props;
+    return connectDragSource(
+      //your component jsx
+    );
+  }
+}
+					</code></pre>
+				</section>
+
+				<section>
+				  <h3>Final picture</h3>
+				  <img src="./img/final%20picture.jpg" alt="">
+				</section>
+
+				<section style="text-align: center;">
+					<h3>Questions?</h3>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
